@@ -98,7 +98,7 @@ for i in $(seq $HowMany); do
 
     wg genkey | tee /home/$SrvUser/wg/keys/${StartIPAddr}_private_key | wg pubkey > /home/$SrvUser/wg/keys/${StartIPAddr}_public_key
     
-    wg set wg0 peer $(cat /home/$SrvUser/wg/keys/${StartIPAddr}_public_key) allowed-ips 10.200.200.${StartIPAddr}/32ls
+    wg set wg0 peer $(cat /home/$SrvUser/wg/keys/${StartIPAddr}_public_key) allowed-ips 10.200.200.${StartIPAddr}/32
 
     echo "[Interface]
         Address = 10.200.200.10/32
