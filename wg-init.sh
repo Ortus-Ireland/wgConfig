@@ -94,7 +94,6 @@ wg genpsk > /home/$SrvUser/wg/keys/preshared_key
 for i in $(seq $HowMany); do
 # Test Loop and Show current Static IP ending
     echo $StartIPAddr
-    StartIPAddr=$((StartIPAddr+1))
 
     wg genkey | tee /home/$SrvUser/wg/keys/${StartIPAddr}_private_key | wg pubkey > /home/$SrvUser/wg/keys/${StartIPAddr}_public_key
     
@@ -110,8 +109,11 @@ for i in $(seq $HowMany); do
         Endpoint = ${serverIP}:443
         AllowedIPs = ${AllowedIPs}/24
         PersistentKeepalive = 21" > /home/$SrvUser/wg/clients/${StartIPAddr}.conf
+    
+    
+    StartIPAddr=$((StartIPAddr+1))
 
            
     done
     
-sudo chown -R {SrvUser} /home/${SrvUser}/wg
+sudo chown -R $SrvUser /home/$SrvUser/wg
