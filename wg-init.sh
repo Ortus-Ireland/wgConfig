@@ -52,9 +52,7 @@ sudo systemctl enable wg-quick@wg0
 
 
 # Change User
-# SrvUser=ortus
-su ortusadmin
-cd $HOME
+SrvUser=$4
 
 
 #Variables Declared
@@ -76,15 +74,15 @@ AllowedIPs="10.200.200.0/24"
 
 # Setup Folders & Server Keys
 # RE ENABLE ME!!!!!!!
-mkdir /home/${USER}/wg
-mkdir /home/${USER}/wg/keys
-mkdir /home/${USER}/wg/clients
+mkdir /home/${SrvUser}/wg
+mkdir /home/${SrvUser}/wg/keys
+mkdir /home/${SrvUser}/wg/clients
 umask 077
 
 # This overwrites the previous Key without prompt. Maybe needs a if Statement to check if something is there or not. 
 wg genkey | sudo tee /etc/wireguard/privatekey | wg pubkey | sudo tee /etc/wireguard/publickey
-wg genkey | tee /home/$USER/wg/keys/server_private_key | wg pubkey > /home/$USER/wg/keys/server_public_key
-wg genpsk > /home/$USER/wg/keys/preshared_key
+wg genkey | tee /home/$SrvUser/wg/keys/server_private_key | wg pubkey > /home/$SrvUser/wg/keys/server_public_key
+wg genpsk > /home/$SrvUser/wg/keys/preshared_key
 
 # Set Variables for Global Key Creation
 # server_private_key=$(</home/$USER/wg/keys/server_private_key)
@@ -98,20 +96,20 @@ for i in $(seq $HowMany); do
     echo $StartIPAddr
     StartIPAddr=$((StartIPAddr+1))
 
-    wg genkey | tee /home/$USER/wg/keys/${StartIPAddr}_private_key | wg pubkey > /home/$USER/wg/keys/${StartIPAddr}_public_key
+    wg genkey | tee /home/$SrvUser/wg/keys/${StartIPAddr}_private_key | wg pubkey > /home/$SrvUser/wg/keys/${StartIPAddr}_public_key
     
-    wg set wg0 peer $(cat /home/$USER/wg/keys/${StartIPAddr}_public_key) allowed-ips 10.200.200.${StartIPAddr}/32ls
+    wg set wg0 peer $(cat /home/$SrvUser/wg/keys/${StartIPAddr}_public_key) allowed-ips 10.200.200.${StartIPAddr}/32ls
 
     echo "[Interface]
         Address = 10.200.200.10/32
-        PrivateKey = $(cat "/home/${USER}/wg/keys/${StartIPAddr}_private_key")
+        PrivateKey = $(cat "/home/${SrvUser}/wg/keys/${StartIPAddr}_private_key")
         DNS = ${DNS1},${DNS2}
 
         [Peer]
-        PublicKey = $(cat "/home/${USER}/wg/keys/server_public_key")
+        PublicKey = $(cat "/home/${SrvUser}/wg/keys/server_public_key")
         Endpoint = ${serverIP}:443
         AllowedIPs = ${AllowedIPs}/24
-        PersistentKeepalive = 21" > /home/$USER/wg/clients/${StartIPAddr}.conf
+        PersistentKeepalive = 21" > /home/$SrvUser/wg/clients/${StartIPAddr}.conf
 
            
     done
