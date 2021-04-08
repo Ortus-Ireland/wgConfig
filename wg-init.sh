@@ -113,3 +113,5 @@ for i in $(seq $HowMany); do
 
            
     done
+    
+sudo chown -R {SrvUser} /home/${SrvUser}/wg
