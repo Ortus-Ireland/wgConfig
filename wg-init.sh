@@ -50,11 +50,6 @@ sudo netfilter-persistent save
 sudo wg-quick up wg0 &&log
 sudo systemctl enable wg-quick@wg0
 
-
-# Change User
-SrvUser=$4
-
-
 #Variables Declared
 # How Many Keys to be Generated
 HowMany=$1
@@ -62,18 +57,20 @@ HowMany=$1
 #What is the starting Static IP of Clients
 StartIPAddr=$2
 
-#Domanin Controllers DNS
-DNS1="8.8.8.8"
-DNS2="8.8.4.4"
-
 #Public IP
 serverIP=$3
+
+# Change User
+SrvUser=$4
+
+#Domanin Controllers DNS
+DNS1=$5
+DNS2=$6
 
 #Allowed IPs
 AllowedIPs="10.200.200.0/24"
 
 # Setup Folders & Server Keys
-# RE ENABLE ME!!!!!!!
 mkdir /home/${SrvUser}/wg
 mkdir /home/${SrvUser}/wg/keys
 mkdir /home/${SrvUser}/wg/clients
@@ -83,12 +80,6 @@ umask 077
 wg genkey | sudo tee /etc/wireguard/privatekey | wg pubkey | sudo tee /etc/wireguard/publickey
 wg genkey | tee /home/$SrvUser/wg/keys/server_private_key | wg pubkey > /home/$SrvUser/wg/keys/server_public_key
 wg genpsk > /home/$SrvUser/wg/keys/preshared_key
-
-# Set Variables for Global Key Creation
-# server_private_key=$(</home/$USER/wg/keys/server_private_key)
-# preshared_key=$(</home/$USER/wg/keys/preshared_key)
-# server_public_key=$(</home/$USER/wg/keys/server_public_key)
-
 
 #Config Loop
 for i in $(seq $HowMany); do
@@ -115,5 +106,6 @@ for i in $(seq $HowMany); do
 
            
     done
-    
+
+
 sudo chown -R $SrvUser /home/$SrvUser/wg
