@@ -51,6 +51,14 @@ sudo wg-quick up wg0 &&log
 sudo systemctl enable wg-quick@wg0
 
 
+
+
+# Change User
+SrvUser=$4
+su $SrvUser
+cd $HOME
+
+
 #Variables Declared
 # How Many Keys to be Generated
 HowMany=$1
