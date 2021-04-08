@@ -51,11 +51,9 @@ sudo wg-quick up wg0 &&log
 sudo systemctl enable wg-quick@wg0
 
 
-
-
 # Change User
-SrvUser=$4
-su $SrvUser
+# SrvUser=ortus
+su ortusadmin
 cd $HOME
 
 
