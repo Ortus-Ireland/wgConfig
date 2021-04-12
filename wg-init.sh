@@ -68,7 +68,7 @@ DNS1=$5
 DNS2=$6
 
 #Allowed IPs
-AllowedIPs="10.200.200.0"
+AllowedIPs="10.200.200.0/24"
 
 # Setup Folders & Server Keys
 mkdir /home/${SrvUser}/wg
@@ -98,7 +98,7 @@ for i in $(seq $HowMany); do
         [Peer]
         PublicKey = $(cat "/home/${SrvUser}/wg/keys/server_public_key")
         Endpoint = ${serverIP}:443
-        AllowedIPs = ${AllowedIPs}/24
+        AllowedIPs = ${AllowedIPs}
         PersistentKeepalive = 21" > /home/$SrvUser/wg/clients/${StartIPAddr}.conf
     
     
