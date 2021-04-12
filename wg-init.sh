@@ -68,7 +68,7 @@ DNS1=$5
 DNS2=$6
 
 #Allowed IPs
-AllowedIPs="10.200.200.0/24"
+AllowedIPs="10.200.200.0"
 
 # Setup Folders & Server Keys
 mkdir /home/${SrvUser}/wg
