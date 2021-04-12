@@ -40,7 +40,6 @@ wg genpsk > /home/$USER/wg/keys/preshared_key
 for i in $(seq $HowMany); do
 # Test Loop and Show current Static IP ending
     echo $StartIPAddr
-    StartIPAddr=$((StartIPAddr+1))
 
     wg genkey | tee /home/$USER/wg/keys/${StartIPAddr}_private_key | wg pubkey > /home/$USER/wg/keys/${StartIPAddr}_public_key
     
@@ -54,8 +53,10 @@ for i in $(seq $HowMany); do
         [Peer]
         PublicKey = $(cat "/home/${USER}/wg/keys/server_public_key")
         Endpoint = ${serverIP}:443
-        AllowedIPs = ${AllowedIPs}/24
+        AllowedIPs = ${AllowedIPs}
         PersistentKeepalive = 21" > /home/$USER/wg/clients/${StartIPAddr}.conf
+   
+    StartIPAddr=$((StartIPAddr+1))
 
            
     done

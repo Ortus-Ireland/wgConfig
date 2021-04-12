@@ -19,20 +19,10 @@ PrivateKey=$(cat wg/keys/server_private_key)"|sudo tee /etc/wireguard/wg0.conf
 
 sudo sysctl -w net.ipv4.ip_forward=1
 
-# Assign the filename
-filename="/etc/sysctl.conf"
-
-# Take the search string
-read -p "#net.ipv4.ip_forward=1" search
-
-# Take the replace string
-read -p "net.ipv4.ip_forward=1" replace
-
-if [[ $search != "" && $replace != "" ]]; then
-sed -i "s/$search/$replace/" $filename
-fi
-
-sudo sysctl -p /etc/sysctl.conf
+## IP Forwarding
+sed -i -e 's/#net.ipv4.ip_forward.*/net.ipv4.ip_forward=1/g' /etc/sysctl.conf
+sed -i -e 's/#net.ipv6.conf.all.forwarding.*/net.ipv6.conf.all.forwarding=1/g' /etc/sysctl.conf
+sysctl -p
 
 sudo iptables -A FORWARD -i wg0 -j ACCEPT
 
