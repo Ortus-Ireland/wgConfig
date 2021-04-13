@@ -6,9 +6,9 @@ sudo apt-get update -y
 sudo apt install wireguard -y
 
 
-mkdir ./wg &&
-mkdir ./wg/keys &&
-umask 077 &&
+mkdir ./wg
+mkdir ./wg/keys
+umask 077
 wg genkey |tee wg/keys/server_private_key|wg pubkey>wg/keys/server_public_key
 
 echo "
@@ -75,7 +75,7 @@ for i in $(seq $HowMany); do
 
     wg genkey | tee /home/$SrvUser/wg/keys/${StartIPAddr}_private_key | wg pubkey > /home/$SrvUser/wg/keys/${StartIPAddr}_public_key
     
-    echo "wg set wg0 peer $(cat wg/keys/${StartIPAddr}_public_key) allowed-ips 10.200.200.${StartIPAddr}/32" | sudo bash -
+    wg set wg0 peer $(cat wg/keys/${StartIPAddr}_public_key) allowed-ips 10.200.200.${StartIPAddr}/32 | sudo bash -
 
     echo "[Interface]
         Address = 10.200.200.${StartIPAddr}/32
