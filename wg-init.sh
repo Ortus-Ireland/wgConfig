@@ -1,5 +1,10 @@
 #!/bin/bash
 
+sleep 30
+
+sudo apt-get update -y
+sudo apt install wireguard -y
+
 #Variables Declared
 # How Many Keys to be Generated
 HowMany=$1
@@ -15,15 +20,11 @@ DNS=10.200.200.1
 #Allowed IPs
 AllowedIPs="10.200.200.0/24"
 
-sleep 30
-
-sudo apt-get update -y
-sudo apt install wireguard -y
 
 # Setup Folders & Server Keys
-umask 077&&
-mkdir /home/$SrvUser/wg/&&
-mkdir /home/$SrvUser/wg/keys/&&
+sudo umask 077&&
+sudo mkdir /home/$SrvUser/wg/&&
+sudo mkdir /home/$SrvUser/wg/keys/&&
 sudo mkdir /home/$SrvUser/wg/clients/
 
 
