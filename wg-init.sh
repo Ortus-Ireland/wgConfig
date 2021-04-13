@@ -10,8 +10,8 @@ mkdir ./wg
 mkdir ./wg/keys
 umask 077
 # wg genkey | sudo tee /etc/wireguard/privatekey | wg pubkey | sudo tee /etc/wireguard/publickey
-wg genkey | tee /home/$SrvUser/wg/keys/server_private_key | wg pubkey > /home/$SrvUser/wg/keys/server_public_key
-wg genpsk > /home/$SrvUser/wg/keys/preshared_key
+wg genkey | tee ./wg/keys/server_private_key | wg pubkey > /home/$SrvUser/wg/keys/server_public_key
+wg genpsk > ./wg/keys/preshared_key
 
 
 # wg genkey | tee wg/keys/server_private_key | wg pubkey > wg/keys/server_public_key
