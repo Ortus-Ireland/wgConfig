@@ -6,15 +6,17 @@ sudo apt-get update -y
 sudo apt install wireguard -y
 
 
-mkdir ./wg
-mkdir ./wg/keys
+# Setup Folders & Server Keys
+mkdir /home/${SrvUser}/wg
+mkdir /home/${SrvUser}/wg/keys
+mkdir /home/${SrvUser}/wg/clients
 umask 077
 # wg genkey | sudo tee /etc/wireguard/privatekey | wg pubkey | sudo tee /etc/wireguard/publickey
 # wg genkey | tee /home/$SrvUser/wg/keys/server_private_key | wg pubkey > /home/$SrvUser/wg/keys/server_public_key
 # wg genpsk > /home/$SrvUser/wg/keys/preshared_key
 
 
-wg genkey | tee /home/$SrvUser/wg/keys/server_private_key | wg pubkey > /home/$SrvUser/wg/keys/server_public_key
+sudo wg genkey | tee /home/ortusadmin/wg/keys/server_private_key | wg pubkey > /home/ortusadmin/wg/keys/server_public_key
 
 echo "
 [Interface]
@@ -62,11 +64,7 @@ DNS=10.200.200.1
 #Allowed IPs
 AllowedIPs="10.200.200.0/24"
 
-# Setup Folders & Server Keys
-mkdir /home/${SrvUser}/wg
-mkdir /home/${SrvUser}/wg/keys
-mkdir /home/${SrvUser}/wg/clients
-umask 077
+
 
 # This overwrites the previous Key without prompt. Maybe needs a if Statement to check if something is there or not. 
 # wg genkey | sudo tee /etc/wireguard/privatekey | wg pubkey | sudo tee /etc/wireguard/publickey
