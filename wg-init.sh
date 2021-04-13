@@ -16,6 +16,7 @@ serverIP=$3
 SrvUser=$4
 #Domanin Controllers DNS
 DNS=10.200.200.1
+# DNS=$5
 # DNS2=$6
 #Allowed IPs
 AllowedIPs="10.200.200.0/24"
@@ -36,7 +37,7 @@ echo "
 Address = 10.200.200.1/24
 SaveConfig = true
 ListenPort = 443
-PrivateKey=$(cat wg/keys/server_private_key)" | sudo tee /etc/wireguard/wg0.conf
+PrivateKey=$(cat /home/${SrvUser}/wg/keys/server_private_key)" | sudo tee /etc/wireguard/wg0.conf
 
 sudo sysctl -w net.ipv4.ip_forward=1
 
@@ -70,7 +71,7 @@ for i in $(seq $HowMany); do
 
     wg genkey | tee /home/$SrvUser/wg/keys/${StartIPAddr}_private_key | wg pubkey > /home/$SrvUser/wg/keys/${StartIPAddr}_public_key
     
-    wg set wg0 peer $(cat wg/keys/${StartIPAddr}_public_key) allowed-ips 10.200.200.${StartIPAddr}/32 | sudo bash -
+    wg set wg0 peer $(cat /home/${SrvUser}/wg/keys/${StartIPAddr}_public_key) allowed-ips 10.200.200.${StartIPAddr}/32 | sudo bash -
 
     echo "[Interface]
         Address = 10.200.200.${StartIPAddr}/32
