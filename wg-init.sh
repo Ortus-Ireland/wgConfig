@@ -1,5 +1,20 @@
 #!/bin/bash
 
+#Variables Declared
+# How Many Keys to be Generated
+HowMany=$1
+#What is the starting Static IP of Clients
+StartIPAddr=$2
+#Public IP
+serverIP=$3
+# Change User
+SrvUser=$4
+#Domanin Controllers DNS
+DNS=10.200.200.1
+# DNS2=$6
+#Allowed IPs
+AllowedIPs="10.200.200.0/24"
+
 sleep 30
 
 sudo apt-get update -y
@@ -45,20 +60,7 @@ sudo netfilter-persistent save
 sudo wg-quick up wg0 &&log
 sudo systemctl enable wg-quick@wg0
 
-#Variables Declared
-# How Many Keys to be Generated
-HowMany=$1
-#What is the starting Static IP of Clients
-StartIPAddr=$2
-#Public IP
-serverIP=$3
-# Change User
-SrvUser=$4
-#Domanin Controllers DNS
-DNS=10.200.200.1
-# DNS2=$6
-#Allowed IPs
-AllowedIPs="10.200.200.0/24"
+
 
 
 
