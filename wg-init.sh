@@ -7,15 +7,15 @@ sudo apt install wireguard -y
 
 # Setup Folders & Server Keys
 sudo umask 077
-sudo mkdir ./wg
-sudo mkdir ./wg/keys
-sudo mkdir ./wg/clients
+sudo mkdir /home/$SrvUser/wg/
+sudo mkdir /home/$SrvUser/wg/keys/
+sudo mkdir /home/$SrvUser/wg/clients/
 # wg genkey | sudo tee /etc/wireguard/privatekey | wg pubkey | sudo tee /etc/wireguard/publickey
 # wg genkey | tee /home/$SrvUser/wg/keys/server_private_key | wg pubkey > /home/$SrvUser/wg/keys/server_public_key
 # wg genpsk > /home/$SrvUser/wg/keys/preshared_key
 
 
-sudo wg genkey | tee /home/ortusadmin/wg/keys/server_private_key | wg pubkey > /home/ortusadmin/wg/keys/server_public_key
+sudo wg genkey | tee /home/$SrvUser/wg/keys/server_private_key | wg pubkey > /home/$SrvUser/wg/keys/server_public_key
 
 echo "
 [Interface]
