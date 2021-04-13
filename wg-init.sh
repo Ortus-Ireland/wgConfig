@@ -22,11 +22,11 @@ AllowedIPs="10.200.200.0/24"
 
 
 # Setup Folders & Server Keys
-sudo umask 077&&
-sudo mkdir /home/$SrvUser/wg/&&
-sudo mkdir /home/$SrvUser/wg/keys/&&
-sudo mkdir /home/$SrvUser/wg/clients/
 
+mkdir /home/${SrvUser}/wg
+mkdir /home/${SrvUser}/wg/keys
+mkdir /home/${SrvUser}/wg/clients
+umask 077&&
 
 sudo wg genkey | tee /home/$SrvUser/wg/keys/server_private_key | wg pubkey > /home/$SrvUser/wg/keys/server_public_key
 
