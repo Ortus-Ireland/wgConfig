@@ -1,8 +1,8 @@
 #!/bin/bash
 
 sleep 30
-sudo apt-get update
-sudo apt install wireguard
+sudo apt-get update -y
+sudo apt install wireguard -y
 
 
 mkdir ./wg &&
@@ -13,7 +13,7 @@ wg genkey |tee wg/keys/server_private_key|wg pubkey>wg/keys/server_public_key
 echo "
 [Interface]
 Address = 10.200.200.1/24
-SaveConfig = true
+SaveConfig = true 
 ListenPort = 443
 PrivateKey=$(cat wg/keys/server_private_key)"|sudo tee /etc/wireguard/wg0.conf
 
@@ -21,8 +21,7 @@ sudo sysctl -w net.ipv4.ip_forward=1
 
 ## IP Forwarding
 sed -i -e 's/#net.ipv4.ip_forward.*/net.ipv4.ip_forward=1/g' /etc/sysctl.conf
-# sed -i -e 's/#net.ipv6.conf.all.forwarding.*/net.ipv6.conf.all.forwarding=1/g' /etc/sysctl.conf
-# sudo sysctl -p /etc/sysctl.conf
+sed -i -e 's/#net.ipv6.conf.all.forwarding.*/net.ipv6.conf.all.forwarding=1/g' /etc/sysctl.conf
 sysctl -p
 
 sudo iptables -A FORWARD -i wg0 -j ACCEPT
@@ -44,15 +43,20 @@ sudo systemctl enable wg-quick@wg0
 #Variables Declared
 # How Many Keys to be Generated
 HowMany=$1
+
 #What is the starting Static IP of Clients
 StartIPAddr=$2
+
 #Public IP
 serverIP=$3
+
 # Change User
 SrvUser=$4
+
 #Domanin Controllers DNS
-DNS=10.200.200.1
-# DNS2=$6
+DNS1=$5
+DNS2=$6
+
 #Allowed IPs
 AllowedIPs="10.200.200.0/24"
 
@@ -74,13 +78,12 @@ for i in $(seq $HowMany); do
 
     wg genkey | tee /home/$SrvUser/wg/keys/${StartIPAddr}_private_key | wg pubkey > /home/$SrvUser/wg/keys/${StartIPAddr}_public_key
     
-    echo "wg set wg0 peer $(cat wg/keys/${StartIPAddr}_public_key) allowed-ips 10.200.200.${StartIPAddr}/32" | sudo bash -
+    wg set wg0 peer $(cat /home/$SrvUser/wg/keys/${StartIPAddr}_public_key) allowed-ips 10.200.200.${StartIPAddr}/32
 
     echo "[Interface]
-        Address = 10.200.200.${StartIPAddr}/32
+        Address = 10.200.200.10/32
         PrivateKey = $(cat "/home/${SrvUser}/wg/keys/${StartIPAddr}_private_key")
-        DNS = ${DNS}
-        MTU = 1380
+        DNS = ${DNS1},${DNS2}
 
         [Peer]
         PublicKey = $(cat "/home/${SrvUser}/wg/keys/server_public_key")
@@ -93,10 +96,6 @@ for i in $(seq $HowMany); do
 
            
     done
+
+
 sudo chown -R $SrvUser /home/$SrvUser/wg
-
-wg-quick down wg0
-
-wg-quick up wg0
-
-
