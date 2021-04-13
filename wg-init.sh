@@ -15,9 +15,9 @@ serverIP=$3
 # Change User
 SrvUser=$4
 #Domanin Controllers DNS
-DNS=10.200.200.1
-# DNS=$5
-# DNS2=$6
+# DNS=10.200.200.1
+DNS=$5
+DNS2=$6
 #Allowed IPs
 AllowedIPs="10.200.200.0/24"
 
@@ -76,7 +76,7 @@ for i in $(seq $HowMany); do
     echo "[Interface]
         Address = 10.200.200.${StartIPAddr}/32
         PrivateKey = $(cat "/home/${SrvUser}/wg/keys/${StartIPAddr}_private_key")
-        DNS = ${DNS}
+        DNS = ${DNS}, ${DNS2}
         MTU = 1380
 
         [Peer]
