@@ -1,8 +1,9 @@
 #!/bin/bash
 
 sleep 30
-sudo apt-get update
-sudo apt install wireguard
+
+sudo apt-get update -y
+sudo apt install wireguard -y
 
 
 mkdir ./wg &&
