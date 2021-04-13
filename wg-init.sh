@@ -29,7 +29,7 @@ mkdir /home/${SrvUser}/wg/clients
 sudo umask 077
 
 
-sudo wg genkey | tee /home/$SrvUser/wg/keys/server_private_key | wg pubkey > /home/$SrvUser/wg/keys/server_public_key
+sudo wg genkey | tee /home/${SrvUser}/wg/keys/server_private_key | wg pubkey > /home/${SrvUser}/wg/keys/server_public_key
 
 echo "
 [Interface]
