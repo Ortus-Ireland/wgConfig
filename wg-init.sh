@@ -5,12 +5,13 @@ sleep 30
 sudo apt-get update -y
 sudo apt install wireguard -y
 
+sleep 10
 
 # Setup Folders & Server Keys
-mkdir /home/${SrvUser}/wg
-mkdir /home/${SrvUser}/wg/keys
-mkdir /home/${SrvUser}/wg/clients
-umask 077
+sudo mkdir /home/${SrvUser}/wg
+sudo mkdir /home/${SrvUser}/wg/keys
+sudo mkdir /home/${SrvUser}/wg/clients
+sudo umask 077
 # wg genkey | sudo tee /etc/wireguard/privatekey | wg pubkey | sudo tee /etc/wireguard/publickey
 # wg genkey | tee /home/$SrvUser/wg/keys/server_private_key | wg pubkey > /home/$SrvUser/wg/keys/server_public_key
 # wg genpsk > /home/$SrvUser/wg/keys/preshared_key
