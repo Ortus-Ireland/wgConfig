@@ -35,7 +35,7 @@ echo "
 Address = 10.200.200.1/24
 SaveConfig = true
 ListenPort = 443
-PrivateKey=$(cat wg/keys/server_private_key)"|sudo tee /etc/wireguard/wg0.conf
+PrivateKey=$(cat wg/keys/server_private_key)" | sudo tee /etc/wireguard/wg0.conf
 
 sudo sysctl -w net.ipv4.ip_forward=1
 
@@ -62,14 +62,6 @@ sudo wg-quick up wg0 &&log
 sudo systemctl enable wg-quick@wg0
 
 
-
-
-
-# This overwrites the previous Key without prompt. Maybe needs a if Statement to check if something is there or not. 
-# wg genkey | sudo tee /etc/wireguard/privatekey | wg pubkey | sudo tee /etc/wireguard/publickey
-# wg genkey | tee /home/$SrvUser/wg/keys/server_private_key | wg pubkey > /home/$SrvUser/wg/keys/server_public_key
-# wg genpsk > /home/$SrvUser/wg/keys/preshared_key
-
 #Config Loop
 for i in $(seq $HowMany); do
 # Test Loop and Show current Static IP ending
@@ -77,7 +69,7 @@ for i in $(seq $HowMany); do
 
     wg genkey | tee /home/$SrvUser/wg/keys/${StartIPAddr}_private_key | wg pubkey > /home/$SrvUser/wg/keys/${StartIPAddr}_public_key
     
-    echo "wg set wg0 peer $(cat wg/keys/${StartIPAddr}_public_key) allowed-ips 10.200.200.${StartIPAddr}/32" | sudo bash -
+    wg set wg0 peer $(cat wg/keys/${StartIPAddr}_public_key) allowed-ips 10.200.200.${StartIPAddr}/32 | sudo bash -
 
     echo "[Interface]
         Address = 10.200.200.${StartIPAddr}/32
