@@ -9,7 +9,7 @@ sudo apt install wireguard -y
 mkdir ./wg
 mkdir ./wg/keys
 umask 077
-wg genkey |tee wg/keys/server_private_key|wg pubkey>wg/keys/server_public_key
+wg genkey | tee wg/keys/server_private_key | wg pubkey > wg/keys/server_public_key
 
 echo "
 [Interface]
