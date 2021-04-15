@@ -19,7 +19,7 @@ SrvUser=$4
 DNS=$5
 DNS2=$6
 #Allowed IPs
-AllowedIPs="10.200.200.0/24"
+AllowedIPs=$7
 
 
 # Setup Folders & Server Keys
