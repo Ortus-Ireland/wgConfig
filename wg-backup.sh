@@ -22,7 +22,7 @@ BACKUPTIME=`date +%b-%d-%y`
 
 # TESTING SCRIPT
 
-dest=/home/ortusadmin/wg/backups/w0conf-${BACKUPTIME}.tar
+dest=/home/ortusadmin/wg/backup/w0conf-${BACKUPTIME}.tar
 sudo tar -cf $dest /etc/wireguard/wg0.conf /home/ortusadmin/wg/clients /home/ortusadmin/wg/key
 
 dest=/home/ortusadmin/wg/backups/w0conf-${BACKUPTIME}.tar
