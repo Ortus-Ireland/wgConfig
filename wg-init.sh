@@ -98,7 +98,7 @@ sudo sh /home/${SrvUser}/wg/backup/wg-backup.sh $SrvUser
 
 crontab -l > /home/${SrvUser}/wg/backup/wgcron
 #echo new cron into cron file
-echo "0 0 1 * * /home/${SrvUser}/wg/backup/backup.sh" >> /home/${SrvUser}/wg/backup/wgcron
+echo "0 0 1 * * /home/${SrvUser}/wg/backup/wg-backup.sh" >> /home/${SrvUser}/wg/backup/wgcron
 #install new cron file
 crontab -u ${SrvUser} /home/${SrvUser}/wg/backup/wgcron
 rm /home/${SrvUser}/wg/backup/wgcron    
