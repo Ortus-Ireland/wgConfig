@@ -35,7 +35,7 @@ sudo wg genkey | tee /home/${SrvUser}/wg/keys/server_private_key | wg pubkey > /
 
 echo "
 [Interface]
-Address = 10.200.200.1/24
+Address = 10.200.200.1/22
 SaveConfig = true
 ListenPort = 443
 PrivateKey=$(cat /home/${SrvUser}/wg/keys/server_private_key)" | sudo tee /etc/wireguard/wg0.conf
