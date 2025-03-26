@@ -52,7 +52,7 @@ sudo iptables -A FORWARD -i wg0 -j ACCEPT
 
 sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 
-sudo iptables -t nat -A POSTROUTING -s 10.200.200.0/24 -o eth0 -j MASQUERADE
+sudo iptables -t nat -A POSTROUTING -s 10.200.200.0/22 -o eth0 -j MASQUERADE
 
 echo iptables-persistent iptables-persistent/autosave_v4 boolean true | sudo debconf-set-selections
 echo iptables-persistent iptables-persistent/autosave_v6 boolean true | sudo debconf-set-selections
