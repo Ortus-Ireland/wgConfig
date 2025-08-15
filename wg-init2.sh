@@ -15,7 +15,7 @@ serverIP=$3
 # Change User
 SrvUser=$4
 #Domanin Controllers DNS
-# DNS=10.100.200.1
+# DNS=10.101.200.1
 DNS=$5
 DNS2=$6
 #Allowed IPs
@@ -35,7 +35,7 @@ sudo wg genkey | tee /home/${SrvUser}/wg/keys/server_private_key | wg pubkey > /
 
 echo "
 [Interface]
-Address = 10.100.200.1/22
+Address = 10.101.200.1/22
 SaveConfig = true
 ListenPort = 443
 PrivateKey=$(cat /home/${SrvUser}/wg/keys/server_private_key)" | sudo tee /etc/wireguard/wg0.conf
@@ -52,7 +52,7 @@ sudo iptables -A FORWARD -i wg0 -j ACCEPT
 
 sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 
-sudo iptables -t nat -A POSTROUTING -s 10.100.200.0/22 -o eth0 -j MASQUERADE
+sudo iptables -t nat -A POSTROUTING -s 10.101.200.0/22 -o eth0 -j MASQUERADE
 
 echo iptables-persistent iptables-persistent/autosave_v4 boolean true | sudo debconf-set-selections
 echo iptables-persistent iptables-persistent/autosave_v6 boolean true | sudo debconf-set-selections
@@ -72,10 +72,10 @@ for i in $(seq $HowMany); do
 
     wg genkey | tee /home/$SrvUser/wg/keys/${StartIPAddr}_private_key | wg pubkey > /home/$SrvUser/wg/keys/${StartIPAddr}_public_key
     
-    wg set wg0 peer $(cat /home/${SrvUser}/wg/keys/${StartIPAddr}_public_key) allowed-ips 10.100.200.${StartIPAddr}/32 | sudo bash -
+    wg set wg0 peer $(cat /home/${SrvUser}/wg/keys/${StartIPAddr}_public_key) allowed-ips 10.101.200.${StartIPAddr}/32 | sudo bash -
 
     echo "[Interface]
-        Address = 10.100.200.${StartIPAddr}/32
+        Address = 10.100.201.${StartIPAddr}/32
         PrivateKey = $(cat "/home/${SrvUser}/wg/keys/${StartIPAddr}_private_key")
         DNS = ${DNS}, ${DNS2}
         MTU = 1280
